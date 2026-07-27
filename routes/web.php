@@ -8,6 +8,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,3 +48,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
+
+    Route::get('/',[ProductController::class,'index'])->name('home');
+    Route::get('/products',[ProductController::class,'index'])->name('products.index');
+    Route::get('/products/{product}',[ProductController::class,'show'])->name('products.show');
+
+    Route::get('/cart',[CartController::class,'index'])->name('cart.index');
+    Route::post('/cart/{product}',[CartController::class,'add'])->name('cart.add');
+    Route::patch('/cart',[CartController::class,'update'])->name('cart.update');
+    Route::delete('/cart',[CartController::class,'remove'])->name('cart.remove');
