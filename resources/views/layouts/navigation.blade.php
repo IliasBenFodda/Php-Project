@@ -24,6 +24,15 @@
                         @endif
                     @endauth
 
+                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                        {{__('Products')}}
+                    </x-nav-link>
+
+                    @auth
+                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
+                        {{__('Cart')}}
+                    </x-nav-link>
+                    @endauth
 
                     <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.index')">
                         {{__('Faq')}}
