@@ -56,6 +56,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')
     Route::middleware('auth')->group(function () {
         Route::get('/cart',[CartController::class,'index'])->name('cart.index');
         Route::post('/cart/{product}',[CartController::class,'add'])->name('cart.add');
-        Route::patch('/cart',[CartController::class,'update'])->name('cart.update');
-        Route::delete('/cart',[CartController::class,'remove'])->name('cart.remove');
+        Route::patch('/cart/{product}',[CartController::class,'update'])->name('cart.update');
+        Route::delete('/cart/{product}',[CartController::class,'remove'])->name('cart.remove');
+
+        Route::post('/checkout',[CartController::class,'checkout'])->name('cart.checkout');
     });
