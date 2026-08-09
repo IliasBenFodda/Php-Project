@@ -116,12 +116,14 @@
                             <div>
                                 <label class="block text-sm text-gray-600 mb-1">Full name</label>
                                 <input type="text" name="name"
+                                       required
                                        value="{{ old('name', auth()->user()->name) }}"
                                        class="border rounded px-3 py-2 w-full focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                             </div>
                             <div>
                                 <label class="block text-sm text-gray-600 mb-1">Email</label>
                                 <input type="email" name="email"
+                                       required
                                        value="{{ old('email', auth()->user()->email) }}"
                                        class="border rounded px-3 py-2 w-full focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                             </div>
@@ -129,6 +131,7 @@
                         <div class="mt-4">
                             <label class="block text-sm text-gray-600 mb-1">Address</label>
                             <textarea name="address" rows="2"
+                                      required
                                       placeholder="Street, city, postal code, country"
                                       class="border rounded px-3 py-2 w-full focus:ring-2 focus:ring-indigo-500 focus:outline-none">{{ old('address') }}</textarea>
                         </div>

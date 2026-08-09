@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -56,7 +58,46 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
-    public function checkout(){
+    public function checkout(Request $request){
+        $cart = session('cart',[]);
 
+        if(empty($cart)){
+            return redirect()->route('cart.index')-> with(['error' => 'No items in cart']);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'address' => 'required|string|max:255',
+            'card' => 'required|string|max:255',
+            'expiry' => 'required|string',
+            'cvv' => 'required|string|max:255',
+        ]);
+
+        $total = collect($cart)->sum(function($item){
+            return $item['quantity'] * $item['price'];
+        });
+
+        $order = DB::transaction(function() use($cart, $validated, $total){
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'address' => $validated['address'],
+                'total' => $total,
+                'status' => 'pending',
+            ]);
+
+            foreach($cart as $productId => $item){
+                $order->items()->create([
+                    'product_id' => $productId,
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                ]);
+            }
+            return $order;
+        });
+        session()->forget('cart');
+        return redirect()->route('cart.index')-> with(['success' => 'Order placed']);
     }
 }
