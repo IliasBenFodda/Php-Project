@@ -1,7 +1,15 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto px-4 py-10">
-        <h1 class="text-3xl font-bold mb-8 text-gray-800">Our Products</h1>
-
+        @auth
+            @if(auth()->user()->isAdmin())
+                <div class="flex justify-between">
+                    <h1 class="text-3xl font-bold mb-8 text-gray-800">Our Products</h1>
+                   <a href="{{route('admin.products.create')}}">
+                      + Add product
+                   </a>
+                </div>
+            @endif
+        @endauth
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse ($products as $product)
                 <a href="{{ route('products.show', $product) }}"

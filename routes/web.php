@@ -53,11 +53,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')
     Route::get('/products',[ProductController::class,'index'])->name('products.index');
     Route::get('/products/{product}',[ProductController::class,'show'])->name('products.show');
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'user'])->group(function () {
         Route::get('/cart',[CartController::class,'index'])->name('cart.index');
         Route::post('/cart/{product}',[CartController::class,'add'])->name('cart.add');
         Route::patch('/cart/{product}',[CartController::class,'update'])->name('cart.update');
         Route::delete('/cart/{product}',[CartController::class,'remove'])->name('cart.remove');
 
         Route::post('/checkout',[CartController::class,'checkout'])->name('cart.checkout');
+    });
+
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/admin/products/create',[ProductController::class,'create'])->name('admin.products.create');
+        Route::post('/admin/products',[ProductController::class,'store'])->name('admin.products.store');
+        Route::get('/admin/products/{product}/edit',[ProductController::class,'edit'])->name('admin.products.edit');
+        Route::put('/admin/products/{product}',[ProductController::class,'update'])->name('admin.products.update');
+        Route::delete('/admin/products/{product}',[ProductController::class,'destroy'])->name('admin.products.destroy');
     });

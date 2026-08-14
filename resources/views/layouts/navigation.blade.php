@@ -29,9 +29,11 @@
                     </x-nav-link>
 
                     @auth
+                        @if(auth()->user()->isUser())
                     <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
                         {{__('Cart')}}
                     </x-nav-link>
+                        @endif
                     @endauth
 
                     <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.index')">

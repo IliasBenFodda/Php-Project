@@ -1,9 +1,25 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto px-4 py-10">
-
+        <div class="flex justify-between">
         <a href="{{ route('products.index') }}"
            class="text-indigo-600 hover:underline text-sm">&larr; Back to shop</a>
+        @auth
+            @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.products.edit', $product) }}">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
 
+                    <form action="{{ route('admin.products.destroy', $product) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+            @endif
+        @endauth
+        </div>
         <div class="bg-white rounded-lg shadow mt-4 overflow-hidden md:flex">
             <div class="md:w-1/2">
                 <img src="{{ $product->image
@@ -36,12 +52,16 @@
 
                 <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-6">
                     @csrf
-                    <button type="submit"
-                            @disabled($product->stock < 1)
-                            class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold
+                    @auth
+                        @if(auth()->user()->isUser())
+                            <button type="submit"
+                                    @disabled($product->stock < 1)
+                                    class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold
                                    hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                        Add to Cart
-                    </button>
+                                Add to Cart
+                            </button>
+                        @endif
+                    @endauth
                 </form>
             </div>
         </div>
