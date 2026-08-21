@@ -38,6 +38,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')
 
         Route::patch('/users/{user}/change-role', [UserController::class, 'changeRole'])
             ->name('users.changeRole');
+        Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
 
         Route::get('/faq/create', [FaqController::class, 'create'])->name('faq.create');
         Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');

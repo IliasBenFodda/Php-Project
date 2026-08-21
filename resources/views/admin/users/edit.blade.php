@@ -20,13 +20,6 @@
                     </div>
 
                     <div>
-                        <x-input-label for="email" value="Email"/>
-                        <x-text-input id="email" name="email" type="email" class="block mt-1 w-full"
-                                      value="{{ old('email', $user->email) }}" required/>
-                        <x-input-error :messages="$errors->get('email')" class="mt-2"/>
-                    </div>
-
-                    <div>
                         <x-input-label for="role" value="Role"/>
                         <select id="role" name="role"
                                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm" @disabled(auth()->id() === $user->id)>
@@ -38,20 +31,6 @@
                             <p class="text-sm text-gray-500 mt-1">You cannot remove your own admin role.</p>
                         @endif
                         <x-input-error :messages="$errors->get('role')" class="mt-2"/>
-                    </div>
-
-                    <div>
-                        <x-input-label for="password" value="New Password"/>
-                        <x-text-input id="password" name="password" type="password" class="block mt-1 w-full"
-                                      minlength="8"/>
-                        <p class="text-sm text-gray-500 mt-1">Leave empty to keep the current password.</p>
-                        <x-input-error :messages="$errors->get('password')" class="mt-2"/>
-                    </div>
-
-                    <div>
-                        <x-input-label for="password_confirmation" value="Confirm New Password"/>
-                        <x-text-input id="password_confirmation" name="password_confirmation" type="password"
-                                      class="block mt-1 w-full"/>
                     </div>
 
                     <div class="flex gap-3">

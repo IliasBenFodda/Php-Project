@@ -58,26 +58,47 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view("admin.users.edit",compact("user"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'in:user,admin'],
+        ]);
+
+        if($user->id === auth()->id() && $validated['role'] !== 'admin') {
+            return redirect()
+                ->route('admin.users.index')
+                ->with('error', 'Je kan je eigen rol niet veranderen.');
+        }
+
+        $user->update($validated);
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'Gebruiker is succesvol geupdate.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        if ($user->id === auth()->id()){
+            return redirect()->route("admin.users.index")->with("error","Je kan je eigen account niet verwijderen");
+        }
+        $user->delete();
+
+        return redirect()->route("admin.users.index")->with("success","Gebruiker is succesvol verwijderd");
     }
+
 
     public function changeRole(User $user)
     {
