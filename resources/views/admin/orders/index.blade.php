@@ -37,7 +37,21 @@ Orders
                     <td class="px-4 py-3">{{ $order->email }}</td>
                     <td class="px-4 py-3">{{ $order->items->count() }}</td>
                     <td class="px-4 py-3">€{{ number_format($order->total, 2) }}</td>
-                    <td class="px-4 py-3">{{ $order->status }}</td>
+                    <td class="px-4 py-3">
+                        <form method="POST" action="{{ route('admin.orders.updateStatus', $order) }}">
+                            @csrf
+                            @method('PATCH')
+                            <select name="status"
+                                    onchange="this.form.submit()"
+                                    class="border-gray-300 rounded-lg text-sm">
+                                @foreach(['pending','processing','shipped','completed','cancelled'] as $status)
+                                    <option value="{{ $status }}" @selected($order->status === $status)>
+                                        {{ ucfirst($status) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </td>
                     <td class="px-4 py-3">{{ $order->created_at->format('d-m-Y') }}</td>
                     <td class="px-4 py-3">
                         <a href="{{ route('admin.orders.show', $order) }}">
