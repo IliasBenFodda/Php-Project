@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -73,4 +74,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')
         Route::get('/admin/orders',[OrderController::class,'index'])->name('admin.orders.index');
         Route::get('/admin/orders/{order}',[OrderController::class,'show'])->name('admin.orders.show');
         Route::patch('/admin/orders/{order}/status',[OrderController::class,'updateStatus'])->name('admin.orders.updateStatus');
+        Route::get('/admin/notifications/{notification}/read', [NotificationController::class, 'read'])->name('admin.notifications.read');
     });
+

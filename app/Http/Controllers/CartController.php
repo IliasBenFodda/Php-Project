@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\NewOrderNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use App\Models\Product;
@@ -97,6 +100,8 @@ class CartController extends Controller
             }
             return $order;
         });
+        $admins =User::where('role','admin')->get();
+        Notification::send($admins, new NewOrderNotification($order));
         session()->forget('cart');
         return redirect()->route('cart.index')-> with(['success' => 'Order placed']);
     }
