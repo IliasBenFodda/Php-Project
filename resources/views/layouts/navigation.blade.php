@@ -22,8 +22,8 @@
                                 {{ __('Users') }}
                             </x-nav-link>
 
-                            <x-nav-link :href="route('admin.users.index')"
-                                        :active="request()->routeIs('admin.users.index')">
+                            <x-nav-link :href="route('admin.orders.index')"
+                                        :active="request()->routeIs('admin.orders.index')">
                                 {{ __('Orders') }}
                             </x-nav-link>
                         @endif
@@ -37,6 +37,10 @@
                         @if(auth()->user()->isUser())
                     <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
                         {{__('Cart')}}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                        {{__('Contact')}}
                     </x-nav-link>
                         @endif
                     @endauth

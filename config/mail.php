@@ -14,7 +14,10 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'to' =>[
+       "address"=> env('MAIL_TO_ADDRESS', 'admin@webshop.test'),
+       "name"=> env('MAIL_FROM_NAME', 'webshop'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
