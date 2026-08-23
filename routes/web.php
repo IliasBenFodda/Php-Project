@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -17,12 +18,9 @@ Route::get('/', function () {
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
-Route::get('/contact', function () {
-    return view('contact.index');
-})->name('contact');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/contact', function () {return view('contact.index');})->name('contact');
+
+Route::get('/dashboard', function () {return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -71,4 +69,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')
         Route::get('/admin/products/{product}/edit',[ProductController::class,'edit'])->name('admin.products.edit');
         Route::put('/admin/products/{product}',[ProductController::class,'update'])->name('admin.products.update');
         Route::delete('/admin/products/{product}',[ProductController::class,'destroy'])->name('admin.products.destroy');
+
+        Route::get('/admin/orders',[OrderController::class,'index'])->name('admin.orders.index');
+        Route::get('/admin/orders/{order}',[OrderController::class,'show'])->name('admin.orders.show');
     });
